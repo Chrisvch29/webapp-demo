@@ -79,7 +79,20 @@ jobs:
             --name "${{ vars.AZURE_CDN_ENDPOINT_NAME }}" \
             --content-paths "/*"
 
+      - name: Show website URL
+        run: |
+          WEBSITE_URL=$(az storage account show \
+            --name "${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}" \
+            --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
+            --query "primaryEndpoints.web" \
+            -o tsv)
 
+          echo "## 🚀 Website deployed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 URL: $WEBSITE_URL" >> $GITHUB_STEP_SUMMARY
+
+          echo "Website URL: $WEBSITE_URL"
+          
 
 ## CREAR IAC
 
