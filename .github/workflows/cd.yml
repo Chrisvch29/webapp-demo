@@ -78,3 +78,27 @@ jobs:
             --profile-name "${{ vars.AZURE_CDN_PROFILE_NAME }}" \
             --name "${{ vars.AZURE_CDN_ENDPOINT_NAME }}" \
             --content-paths "/*"
+
+
+
+## CREAR IAC
+
+# # Crear grupo de recursos
+# az group create \
+#   --name rg-webapp-demo \
+#   --location eastus
+
+# # Crear Storage Account
+# az storage account create \
+#   --name testdemo12345 \
+#   --resource-group rg-webapp-demo \
+#   --location eastus \
+#   --sku Standard_LRS \
+#   --kind StorageV2
+
+# # Habilitar Static Website
+# az storage blob service-properties update \
+#   --account-name testdemo12345 \
+#   --static-website \
+#   --index-document index.html \
+#   --404-document index.html
