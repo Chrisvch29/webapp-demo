@@ -50,19 +50,22 @@ jobs:
           name: dist
           path: dist
 
-      - name: Azure Login (OIDC)
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Login Azure CLI
+        run: |
+          az login --service-principal \
+            -u ${{ secrets.AZURE_CLIENT_ID }} \
+            -p ${{ secrets.AZURE_CLIENT_SECRET }} \
+            --tenant ${{ secrets.AZURE_TENANT_ID }}
+
+          az account set \
+            --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Upload site to $web container
         uses: azure/CLI@v2
         with:
           inlineScript: |
             az storage blob upload-batch \
-              --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}  \
+              --account-name ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}  \
               --auth-mode login \
               -s dist \
               -d '$web' \
